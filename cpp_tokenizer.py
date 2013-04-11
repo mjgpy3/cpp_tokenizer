@@ -5,6 +5,7 @@
 """
 
 from sys import argv
+import re
 
 def try_read_code_from_arg1():
     """
@@ -26,10 +27,29 @@ def tokenize_cpp_code(code):
     lines = code.replace('\t', '').split('\n')
     words = []
 
+    # Split up the lines into words
     for line in lines:
         words += [i for i in line.split(' ') if i]
 
-    return rejoin_strings(words)
+    words_after_filters = []
+
+    for word in words:
+        if ',' in word:
+            words_after_filters += split_up_csv(word)
+            continue
+
+        words_after_filters.append(word)
+
+    return rejoin_strings(words_after_filters)
+
+def split_up_csv(word):
+    """
+        Takes in a word containing commas and splits it up into words, commas
+        and perhaps a semicolin or 2
+    """
+
+    return re.findall('\w+|;|,', word)
+
 
 # re.findall('\w+|;|,', 'afasdf,bas,c;')
 # re.findall('\w+|#|;|\++', '#include++')
