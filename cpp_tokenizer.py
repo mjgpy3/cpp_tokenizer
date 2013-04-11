@@ -79,9 +79,4 @@ def rejoin_strings(words):
 if __name__ == '__main__':
     tokenized = tokenize_cpp_code(try_read_code_from_arg1())
 
-    print "Tokenized length:", len(''.join(tokenized))
-
-    with open(argv[1], 'r') as f:
-        text = f.read().replace(' ', '').replace('\t', '').replace('\n', '')
-
-    print "Stripped raw length:", len(text)
+    print "\n".join(tokenized)
