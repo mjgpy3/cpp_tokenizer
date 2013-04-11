@@ -40,7 +40,7 @@ def tokenize_cpp_code(code):
     return rejoin_strings(words_after_filters)
 
 def process_word(word):
-    return re.findall('[\d|\.]+|\w+|;|,|#|[<>|\+|-]+|\(|\)|{|}|=|\"|::', word)
+    return re.findall('[\d\.]+|;|,|=|#|[<>\+-=%&\*\^&\|]+|\w+|\(|\)|{|}|\"|::', word)
 
 def split_up_csv(word):
     """
@@ -50,9 +50,11 @@ def split_up_csv(word):
 
     return re.findall('[\d|\.]+|\w+|;|,|#|[<>]+|\(|\)|{|}|=|\"|::', word)
 
-# re.findall('\w+|#|;|[\+\-<>]+', '#include++')
-
 def join_between_char(words, char):
+    """
+        Takes a list of words and a character and only joins together lists
+        of words between that character
+    """
     currently_joining = False
     stringed_words = []
     result = []
@@ -61,7 +63,7 @@ def join_between_char(words, char):
         if word == char:
             currently_joining = not currently_joining
             if not currently_joining:
-                result.append('"' + " ".join(stringed_words) + '"')
+                result.append(char + " ".join(stringed_words) + char)
                 stringed_words = []
         else:
             if currently_joining:
