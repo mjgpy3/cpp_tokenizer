@@ -34,13 +34,13 @@ def tokenize_cpp_code(code):
     words_after_filters = []
 
     for word in words:
-        if ',' in word:
-            words_after_filters += split_up_csv(word)
-            continue
-
-        words_after_filters.append(word)
+        #words_after_filters += split_up_csv(word)
+        words_after_filters += process_word(word)
 
     return rejoin_strings(words_after_filters)
+
+def process_word(word):
+    return re.findall('[\d|\.]+|\w+|;|,|#|[<>|\+|-]+|\(|\)|{|}|=|\"|::', word)
 
 def split_up_csv(word):
     """
@@ -48,34 +48,36 @@ def split_up_csv(word):
         and perhaps a semicolin or 2
     """
 
-    return re.findall('\w+|;|,', word)
+    return re.findall('[\d|\.]+|\w+|;|,|#|[<>]+|\(|\)|{|}|=|\"|::', word)
 
+# re.findall('\w+|#|;|[\+\-<>]+', '#include++')
 
-# re.findall('\w+|;|,', 'afasdf,bas,c;')
-# re.findall('\w+|#|;|\++', '#include++')
+def join_between_char(words, char):
+    currently_joining = False
+    stringed_words = []
+    result = []
 
+    for word in words:
+        if word == char:
+            currently_joining = not currently_joining
+            if not currently_joining:
+                result.append('"' + " ".join(stringed_words) + '"')
+                stringed_words = []
+        else:
+            if currently_joining:
+                stringed_words.append(word)
+            else:
+                result.append(word)
+
+    return result
 
 def rejoin_strings(words):
     """
         Parses through a list of words that were priorly split by ' ' and
         attempts to rejoin strings
     """
-    join_mode = False
-    result = []
 
-    for word in words:
-        if join_mode:
-            result[-1] += " " + word
-        else:
-            result.append(word)
-
-        if word.count('"') == 2:
-            continue
-
-        if '"' in word:
-            join_mode = not join_mode
-
-    return result
+    return join_between_char(words, '"')
 
 if __name__ == '__main__':
     print tokenize_cpp_code(try_read_code_from_arg1())
