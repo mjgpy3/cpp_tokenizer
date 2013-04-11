@@ -11,6 +11,8 @@ int main()
         result=5;
         result&= 7;
 
+        std::string yeah_okay;
+
         if (result == 5)
         {
         	result = num_2 % num_1;

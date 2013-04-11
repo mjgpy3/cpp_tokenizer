@@ -34,21 +34,16 @@ def tokenize_cpp_code(code):
     words_after_filters = []
 
     for word in words:
-        #words_after_filters += split_up_csv(word)
         words_after_filters += process_word(word)
 
     return rejoin_strings(words_after_filters)
 
 def process_word(word):
-    return re.findall('[\d\.]+|;|,|=|#|[<>\+-=%&\*\^&\|]+|\w+|\(|\)|{|}|\"|::', word)
-
-def split_up_csv(word):
     """
-        Takes in a word containing commas and splits it up into words, commas
-        and perhaps a semicolin or 2
+        Takes a single "word" and matches it agains the mother of regexes that
+        splits it by various classifications
     """
-
-    return re.findall('[\d|\.]+|\w+|;|,|#|[<>]+|\(|\)|{|}|=|\"|::', word)
+    return re.findall('[\d\.]+|;|,|==|=|#|[<>\+-=%\*\^&\|]+|\w+|\(|\)|{|}|\"|::', word)
 
 def join_between_char(words, char):
     """
@@ -82,4 +77,11 @@ def rejoin_strings(words):
     return join_between_char(words, '"')
 
 if __name__ == '__main__':
-    print tokenize_cpp_code(try_read_code_from_arg1())
+    tokenized = tokenize_cpp_code(try_read_code_from_arg1())
+
+    print "Tokenized length:", len(''.join(tokenized))
+
+    with open(argv[1], 'r') as f:
+        text = f.read().replace(' ', '').replace('\t', '').replace('\n', '')
+
+    print "Stripped raw length:", len(text)
