@@ -1,14 +1,17 @@
+// This is my header and stuff and things
+//
+
 #include <iostream>
 #include <string>
 using namespace std;
 
 int main()
 {
-        string a, b,c = "New string";
+        string a, b,c = "New string"; // OOoooooohhhh some vars...
         int num_1 = 5,num_2=12.0,result=0;
         string str1, str2 = "Paper, Coin and cosmic brownie";
 
-        result=5;
+        //result=5;
         result&= 7;
 
         std::string yeah_okay;

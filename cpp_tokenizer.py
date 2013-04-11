@@ -43,7 +43,12 @@ def process_word(word):
         Takes a single "word" and matches it agains the mother of regexes that
         splits it by various classifications
     """
-    return re.findall('[\d\.]+|;|,|==|=|#|[<>\+-=%\*\^&\|]+|\w+|\(|\)|{|}|\"|::', word)
+    return re.findall('[\d\.]+|;|,|==|=|#|[<>\+-=%\*\^&\|]+|\w+|\(|\)|{|}|\[|\]|\"|::', word)
+
+def strip_comments_from_raw_code(code):
+    code = re.sub('//.*', '', code)
+    #code = re.sub('\/\*[.\n]*\*\/', '', code)
+    return code
 
 def join_between_char(words, char):
     """
@@ -77,6 +82,7 @@ def rejoin_strings(words):
     return join_between_char(words, '"')
 
 if __name__ == '__main__':
-    tokenized = tokenize_cpp_code(try_read_code_from_arg1())
+    code = try_read_code_from_arg1()
+    code = strip_comments_from_raw_code(code)
 
-    print "\n".join(tokenized)
+    print tokenize_cpp_code(code)
