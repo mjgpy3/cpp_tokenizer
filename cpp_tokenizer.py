@@ -43,9 +43,16 @@ def process_word(word):
         Takes a single "word" and matches it agains the mother of regexes that
         splits it by various classifications
     """
-    return re.findall('[\d\.]+|;|,|==|=|#|[<>\+-=%\*\^&\|]+|\w+|\(|\)|{|}|\[|\]|\"|::', word)
+    return re.findall('[\d\.]+|'+\
+                      ';|,|==|=|#|'+\
+                      '[<>\+-=%\*\^&\|]+|'+\
+                      '\w+|\(|\)|{|}|\[|\]|\"|::', word)
 
 def strip_comments_from_raw_code(code):
+    """
+        Still in progress, successfully strips by-line comments, needs to 
+        strip multi-line
+    """
     code = re.sub('//.*', '', code)
     #code = re.sub('\/\*[.\n]*\*\/', '', code)
     return code
@@ -81,8 +88,14 @@ def rejoin_strings(words):
 
     return join_between_char(words, '"')
 
-if __name__ == '__main__':
-    code = try_read_code_from_arg1()
-    code = strip_comments_from_raw_code(code)
+def main():
+    """
+        Reads the passed source file, tokenized it and prints the tokens
+    """
+    code_read = try_read_code_from_arg1()
+    code_read = strip_comments_from_raw_code(code_read)
 
-    print tokenize_cpp_code(code)
+    print tokenize_cpp_code(code_read)
+
+if __name__ == '__main__':
+    main()
