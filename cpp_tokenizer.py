@@ -44,7 +44,7 @@ def process_word(word):
         splits it by various classifications
     """
     return re.findall('[\d\.]+|'+\
-                      ';|,|==|=|#|'+\
+                      ';|,|==|=|#|\'.+?\'|'+\
                       '[<>\+-=%\*\^&\|]+|'+\
                       '\w+|\(|\)|{|}|\[|\]|\"|::', word)
 

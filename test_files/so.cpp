@@ -11,6 +11,8 @@ int main()
         int num_1 = 5,num_2=12.0,result=0;
         string str1, str2 = "Paper, Coin and cosmic brownie";
 
+        char mydumbchar = '\n', stupidchar = 'F', lastandleastchar = 'P';
+
         //result=5;
         result&= 7;
 
