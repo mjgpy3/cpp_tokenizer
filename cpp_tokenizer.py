@@ -40,13 +40,16 @@ def tokenize_cpp_code(code):
     for line in lines:
         words += [i for i in line.split(' ') if i]
 
+    # Will store the "words" after they have been processed
     words_after_filters = []
 
+    # Tokenize (split up) each word
     for word in words:
-        words_after_filters += process_word(word)
+        words_after_filters += tokenize_word(word)
 
     i = 0
 
+    # Place strings and chars back into their slots
     for (j, word) in enumerate(words_after_filters):
         if word == '@sc@':
             words_after_filters[j] = strings_and_chars[i]
@@ -54,7 +57,7 @@ def tokenize_cpp_code(code):
 
     return words_after_filters
 
-def process_word(word):
+def tokenize_word(word):
     """
         Takes a single "word" and matches it agains the mother of regexes that
         splits it by various classifications
