@@ -5,6 +5,12 @@
 #include <string>
 using namespace std;
 
+/*
+  This is a multi-line comment += 0-2980- pfgw pojl
+
+  % dsalfasf;[; ;
+*/
+
 int main()
 {
         string a, b,c = "New string"; // OOoooooohhhh some vars...

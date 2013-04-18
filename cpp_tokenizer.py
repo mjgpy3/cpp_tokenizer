@@ -32,6 +32,8 @@ def tokenize_cpp_code(code):
     for replace_me in strings_and_chars:
         code = code.replace(replace_me, '@sc@')
 
+    code = strip_comments_from_raw_code(code)
+
     # Get rid of tab characters and split it into a list of lines
     lines = code.replace('\t', '').split('\n')
     words = []
@@ -73,7 +75,7 @@ def strip_comments_from_raw_code(code):
         strip multi-line
     """
     code = re.sub('//.*', '', code)
-    #code = re.sub('\/\*[.\n]*\*\/', '', code)
+    code = re.sub('/\*.+\*/', '', code, 0, re.DOTALL)
     return code
 
 def main():
@@ -81,8 +83,6 @@ def main():
         Reads the passed source file, tokenized it and prints the tokens
     """
     code_read = try_read_code_from_arg1()
-    code_read = strip_comments_from_raw_code(code_read)
-
     print "\n".join(tokenize_cpp_code(code_read))
 
 if __name__ == '__main__':
