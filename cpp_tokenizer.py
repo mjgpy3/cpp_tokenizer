@@ -26,7 +26,7 @@ def tokenize_cpp_code(code):
     """
 
     # Get all the strings and chars from the code
-    strings_and_chars = strings = re.findall('".+"|\'.+?\'', code)
+    strings_and_chars = re.findall('".+"|\'.+?\'', code)
 
     # Place the "@sc@" token wherever we took chars or strings from in the code
     for replace_me in strings_and_chars:
@@ -47,7 +47,7 @@ def tokenize_cpp_code(code):
 
     i = 0
 
-    for (j,word) in enumerate(words_after_filters):
+    for (j, word) in enumerate(words_after_filters):
         if word == '@sc@':
             words_after_filters[j] = strings_and_chars[i]
             i += 1

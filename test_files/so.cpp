@@ -29,5 +29,7 @@ int main()
         }
 
 	cout << c << " is your value..." << endl;
+
+        cout << str2.length();
 	return 0;
 }
