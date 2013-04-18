@@ -24,6 +24,15 @@ def tokenize_cpp_code(code):
     """
         Returns a list of tokens from the passed code
     """
+
+    # Get all the strings and chars from the code
+    strings_and_chars = strings = re.findall('".+"|\'.+?\'', code)
+
+    # Place the "@sc@" token wherever we took chars or strings from in the code
+    for replace_me in strings_and_chars:
+        code = code.replace(replace_me, '@sc@')
+
+    # Get rid of tab characters and split it into a list of lines
     lines = code.replace('\t', '').split('\n')
     words = []
 
@@ -36,7 +45,14 @@ def tokenize_cpp_code(code):
     for word in words:
         words_after_filters += process_word(word)
 
-    return rejoin_strings(words_after_filters)
+    i = 0
+
+    for (j,word) in enumerate(words_after_filters):
+        if word == '@sc@':
+            words_after_filters[j] = strings_and_chars[i]
+            i += 1
+
+    return words_after_filters
 
 def process_word(word):
     """
@@ -46,7 +62,7 @@ def process_word(word):
     return re.findall('[\d\.]+|'+\
                       ';|,|==|=|#|\'.+?\'|'+\
                       '[<>\+-=%\*\^&\|]+|'+\
-                      '\w+|\(|\)|{|}|\[|\]|\"|::', word)
+                      '\w+|\(|\)|{|}|\[|\]|@sc@|::', word)
 
 def strip_comments_from_raw_code(code):
     """
@@ -56,37 +72,6 @@ def strip_comments_from_raw_code(code):
     code = re.sub('//.*', '', code)
     #code = re.sub('\/\*[.\n]*\*\/', '', code)
     return code
-
-def join_between_char(words, char):
-    """
-        Takes a list of words and a character and only joins together lists
-        of words between that character
-    """
-    currently_joining = False
-    stringed_words = []
-    result = []
-
-    for word in words:
-        if word == char:
-            currently_joining = not currently_joining
-            if not currently_joining:
-                result.append(char + " ".join(stringed_words) + char)
-                stringed_words = []
-        else:
-            if currently_joining:
-                stringed_words.append(word)
-            else:
-                result.append(word)
-
-    return result
-
-def rejoin_strings(words):
-    """
-        Parses through a list of words that were priorly split by ' ' and
-        attempts to rejoin strings
-    """
-
-    return join_between_char(words, '"')
 
 def main():
     """
