@@ -60,7 +60,7 @@ def process_word(word):
         splits it by various classifications
     """
     return re.findall('[\d\.]+|'+\
-                      ';|,|==|=|#|\'.+?\'|'+\
+                      ';|,|==|=|#|'+\
                       '[<>\+-=%\*\^&\|]+|'+\
                       '\w+|\(|\)|{|}|\[|\]|@sc@|::', word)
 
@@ -80,7 +80,7 @@ def main():
     code_read = try_read_code_from_arg1()
     code_read = strip_comments_from_raw_code(code_read)
 
-    print tokenize_cpp_code(code_read)
+    print "\n".join(tokenize_cpp_code(code_read))
 
 if __name__ == '__main__':
     main()
