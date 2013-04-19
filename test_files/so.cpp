@@ -17,6 +17,12 @@ int main()
         int num_1 = 5,num_2=12.0,result=0;
         string str1, str2 = "Paper, Coin and cosmic brownie";
 
+        int array[5];
+
+
+        array[0] = 6;
+        array[1] = array[2] = 980;
+
         char mydumbchar = '\n', stupidchar = 'F', lastandleastchar = 'P';
 
         //result=5;
